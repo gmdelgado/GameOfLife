@@ -164,5 +164,10 @@ namespace GameOfLife
             }
             graphicsPanel1.Invalidate();
         }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
