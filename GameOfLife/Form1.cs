@@ -45,10 +45,21 @@ namespace GameOfLife
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    //int count = CountNeighbor; // send in the x and the y
+                    int count = CountNeighborsFinite(x, y); // send in the x and the y
 
                     // Apply the rules whether cell should live or die in next generation
-
+                    if(scratchPad[x, y])
+                    {
+                        if (count == 2 || count == 3)
+                            scratchPad[x, y] = true;
+                        if (count < 2 || count > 3)
+                            scratchPad[x, y] = false;                        
+                    }
+                    else
+                    {
+                        if ( count == 3)
+                            scratchPad[x,y] = true;
+                    }
                     // Turn in on/off the scratchPad second universe array created next the the other array
 
                 }
