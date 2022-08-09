@@ -14,10 +14,11 @@ namespace GameOfLife
     {
         // The universe array
         bool[,] universe = new bool[5, 5];
+        bool[,] scratchPad = new bool[5, 5];
 
         // Drawing colors
         Color gridColor = Color.Black;
-        Color cellColor = Color.DarkMagenta;
+        Color cellColor = Color.Green;
 
         // The Timer class
         Timer timer = new Timer();
@@ -32,29 +33,32 @@ namespace GameOfLife
             // Setup the timer
             timer.Interval = 100; // milliseconds
             timer.Tick += Timer_Tick;
-            timer.Enabled = true; // start timer running //may need to change to false or will need to change to false
+            timer.Enabled = false; // start timer running //may need to change to false or will need to change to false
         }
 
         // Calculate the next generation of cells
         private void NextGeneration()
         {
+            
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    // int count = CountNeighbor
+                    //int count = CountNeighbor; // send in the x and the y
 
                     // Apply the rules whether cell should live or die in next generation
 
-                    // Turn in on/off the scratchPad
+                    // Turn in on/off the scratchPad second universe array created next the the other array
 
                 }
             }
 
             // Copy from scratchPad to universe
             // clear out anything in the scratchPad that shouldnt be turned on the next time scratchPad executes
-
+            bool[,] temp = universe;
+            universe = scratchPad;
+            scratchPad = temp;
 
             // Increment generation count
             generations++;
@@ -63,7 +67,7 @@ namespace GameOfLife
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
 
             // Invalidate the graphics panel
-            //graphicsPanel1.Invalidate();
+            graphicsPanel1.Invalidate();
         }
 
         // The event called by the timer every Interval milliseconds.
@@ -100,11 +104,11 @@ namespace GameOfLife
                     cellRect.Y = y * cellHeight; //setting y 
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
-
                     // Fill the cell with a brush if alive
                     if (universe[x, y] == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
+                        
                     }
 
                     // Outline the cell with a pen
@@ -148,11 +152,6 @@ namespace GameOfLife
             this.Close(); //shuts down the program
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -165,9 +164,97 @@ namespace GameOfLife
             graphicsPanel1.Invalidate();
         }
 
-        private void toolStripButton3_Click(object sender, EventArgs e)
-        {
 
+        private int CountNeighborsFinite(int x, int y)
+        {
+            int count = 0;
+            int xLen = universe.GetLength(0);
+            int yLen = universe.GetLength(1);
+            for (int yOffset = -1; yOffset <= 1; yOffset++)
+            {
+                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                {
+                    int xCheck = x + xOffset;
+                    int yCheck = y + yOffset;
+                    // if xOffset and yOffset are both equal to 0 then continue
+                    if (xOffset == 0 & yOffset == 0)
+                    {
+                        continue;
+                    }
+                    // if xCheck is less than 0 then continue
+                    if (xCheck < 0)
+                    {
+                        continue;
+                    }
+                    // if yCheck is less than 0 then continue
+                    if (yCheck < 0)
+                    {
+                        continue;
+                    }
+                    // if xCheck is greater than or equal too xLen then continue
+                    if (xCheck >= xLen)
+                    {
+                        continue;
+                    }
+                    // if yCheck is greater than or equal too yLen then continue
+                    if (yCheck >= yLen)
+                    {
+                        continue;
+                    }
+
+                    if (universe[xCheck, yCheck] == true) count++;
+
+
+                }
+            }
+            return count;
+        }
+
+
+        private void toolStripButtonNext_Click(object sender, EventArgs e)
+        {
+            //call next generation once
+            NextGeneration();
+        }
+
+        private void toolStripButtonPause_Click(object sender, EventArgs e)
+        {
+            //only thing it needs to do is set timer to false
+            timer.Enabled = false;
+        }
+
+        private void toolStripButtonStart_Click(object sender, EventArgs e)
+        {
+            //only thing it needs to do is set timer to true
+            timer.Enabled = true;
+        }
+
+        private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = cellColor;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                cellColor = dlg.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = gridColor;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                gridColor = dlg.Color;
+                graphicsPanel1.Invalidate();
+            }
         }
     }
+
+
 }
