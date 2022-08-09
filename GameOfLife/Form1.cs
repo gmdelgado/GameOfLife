@@ -13,8 +13,8 @@ namespace GameOfLife
     public partial class Form1 : Form
     {
         // The universe array
-        bool[,] universe = new bool[15, 15];
-        bool[,] scratchPad = new bool[15, 15];
+        bool[,] universe = new bool[50, 50];
+        bool[,] scratchPad = new bool[50, 50];
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -25,6 +25,8 @@ namespace GameOfLife
 
         // Generation count
         int generations = 0;
+        int cellCount = 0;
+        int neighbors = 0;
 
         public Form1()
         {
@@ -39,39 +41,46 @@ namespace GameOfLife
         // Calculate the next generation of cells
         private void NextGeneration()
         {
-            Form1 temp1 = new Form1();
 
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    int count = CountNeighborsFinite(x, y); // send in the x and the y
+                    int neighbors = CountNeighborsFinite(x, y); // send in the x and the y
+                    //int neighbors = CountNeighborsToroidal(x, y);
+
 
                     // Apply the rules whether cell should live or die in next generation
-                    if (scratchPad[x, y])
+                    if (universe[x, y] == true)
                     {
-                        if (count == 2 || count == 3)
-                            scratchPad[x, y] = true;
-                        if (count < 2 || count > 3)
+                        // cell dies with fewer than two neighbors
+                        if (neighbors < 2 )
                             scratchPad[x, y] = false;
-                    }
-                    else
-                    {
-                        if (count == 3)
+                        // cell dies with more than three neighbors
+                        if (neighbors > 3)
+                            scratchPad[x, y] = false;
+                        // any cell with 2 or 3 neighbors lives
+                        if (neighbors == 2 || neighbors == 3)
                             scratchPad[x, y] = true;
                     }
-                    // Turn in on/off the scratchPad second universe array created next the the other array
+                    else if (universe[x, y] == false)
+                    {
+                        if (neighbors == 3)
+                            scratchPad[x, y] = true;
+                    }
 
+                    //Turn on/off the scratch pad (second unvierse array next to the other array)
+                    
                 }
             }
-
+            
             // Copy from scratchPad to universe
             // clear out anything in the scratchPad that shouldnt be turned on the next time scratchPad executes
             bool[,] temp = universe;
             universe = scratchPad;
             scratchPad = temp;
-
+            Array.Clear(scratchPad,0, scratchPad.Length);
             // Increment generation count
             generations++;
 
@@ -96,13 +105,15 @@ namespace GameOfLife
             int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
             // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
             int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
-
+            Font font = new Font("Arial", 20f);
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(gridColor, 1);
 
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
-
+            StringFormat stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -112,6 +123,7 @@ namespace GameOfLife
                     // A rectangle to represent each cell in pixels
                     //RectangleF cellRect = RectangleF.Empty; //floats
                     Rectangle cellRect = Rectangle.Empty; //declaring rectangle
+
                     cellRect.X = x * cellWidth; //setting x
                     cellRect.Y = y * cellHeight; //setting y 
                     cellRect.Width = cellWidth;
@@ -120,10 +132,11 @@ namespace GameOfLife
                     if (universe[x, y] == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
-
+                        e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Black, cellRect, stringFormat);
                     }
 
                     // Outline the cell with a pen
+                    
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
             }
@@ -166,7 +179,7 @@ namespace GameOfLife
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            ResetGen(ref generations);
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 for (int x = 0; x < universe.GetLength(0); x++)
@@ -175,7 +188,7 @@ namespace GameOfLife
                     universe[x, y] = false;
                 }
             }
-            ResetGen(ref generations);
+ 
             graphicsPanel1.Invalidate();
         }
 
@@ -192,7 +205,7 @@ namespace GameOfLife
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
                     // if xOffset and yOffset are both equal to 0 then continue
-                    if (xOffset == 0 & yOffset == 0)
+                    if (xOffset == 0 && yOffset == 0)
                     {
                         continue;
                     }
@@ -276,7 +289,7 @@ namespace GameOfLife
 
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CountNeighborsFinite(x, y);
+            
         }
 
         private int CountNeighborsToroidal(int x, int y)
@@ -295,16 +308,16 @@ namespace GameOfLife
                         continue;
                     // if xCheck is less than 0 then set to xLen - 1
                     if (xCheck < 0)
-                        count = xLen - 1;
+                        xCheck = xLen - 1;
                     // if yCheck is less than 0 then set to yLen - 1
                     if(yCheck < 0)
-                        count = yLen - 1;
+                        yCheck = yLen - 1;
                     // if xCheck is greater than or equal too xLen then set to 0
                     if (xCheck >= xLen)
-                        count = 0;
+                        xCheck = 0;
                     // if yCheck is greater than or equal too yLen then set to 0
                     if (yCheck >= yLen)
-                        count = yLen;
+                        yCheck= yLen;
 
                     if (universe[xCheck, yCheck] == true) count++;
                 }
