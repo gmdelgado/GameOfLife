@@ -13,8 +13,8 @@ namespace GameOfLife
     public partial class Form1 : Form
     {
         // The universe array
-        bool[,] universe = new bool[5, 5];
-        bool[,] scratchPad = new bool[5, 5];
+        bool[,] universe = new bool[15, 15];
+        bool[,] scratchPad = new bool[15, 15];
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -39,7 +39,8 @@ namespace GameOfLife
         // Calculate the next generation of cells
         private void NextGeneration()
         {
-            
+            Form1 temp1 = new Form1();
+
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -48,17 +49,17 @@ namespace GameOfLife
                     int count = CountNeighborsFinite(x, y); // send in the x and the y
 
                     // Apply the rules whether cell should live or die in next generation
-                    if(scratchPad[x, y])
+                    if (scratchPad[x, y])
                     {
                         if (count == 2 || count == 3)
                             scratchPad[x, y] = true;
                         if (count < 2 || count > 3)
-                            scratchPad[x, y] = false;                        
+                            scratchPad[x, y] = false;
                     }
                     else
                     {
-                        if ( count == 3)
-                            scratchPad[x,y] = true;
+                        if (count == 3)
+                            scratchPad[x, y] = true;
                     }
                     // Turn in on/off the scratchPad second universe array created next the the other array
 
@@ -119,7 +120,7 @@ namespace GameOfLife
                     if (universe[x, y] == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
-                        
+
                     }
 
                     // Outline the cell with a pen
@@ -165,13 +166,16 @@ namespace GameOfLife
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
+
                     universe[x, y] = false;
                 }
             }
+            ResetGen(ref generations);
             graphicsPanel1.Invalidate();
         }
 
@@ -214,8 +218,6 @@ namespace GameOfLife
                     }
 
                     if (universe[xCheck, yCheck] == true) count++;
-
-
                 }
             }
             return count;
@@ -265,7 +267,54 @@ namespace GameOfLife
                 graphicsPanel1.Invalidate();
             }
         }
+
+        public int ResetGen(ref int num)
+        {
+            num = 0;
+            return num;
+        }
+
+        private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CountNeighborsFinite(x, y);
+        }
+
+        private int CountNeighborsToroidal(int x, int y)
+        {
+            int count = 0;
+            int xLen = universe.GetLength(0);
+            int yLen = universe.GetLength(1);
+            for (int yOffset = -1; yOffset <= 1; yOffset++)
+            {
+                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                {
+                    int xCheck = x + xOffset;
+                    int yCheck = y + yOffset;
+                    // if xOffset and yOffset are both equal to 0 then continue
+                    if (xOffset == 0 && yOffset == 0)
+                        continue;
+                    // if xCheck is less than 0 then set to xLen - 1
+                    if (xCheck < 0)
+                        count = xLen - 1;
+                    // if yCheck is less than 0 then set to yLen - 1
+                    if(yCheck < 0)
+                        count = yLen - 1;
+                    // if xCheck is greater than or equal too xLen then set to 0
+                    if (xCheck >= xLen)
+                        count = 0;
+                    // if yCheck is greater than or equal too yLen then set to 0
+                    if (yCheck >= yLen)
+                        count = yLen;
+
+                    if (universe[xCheck, yCheck] == true) count++;
+                }
+            }
+            return count;
+        }
+
+
+
+
+
     }
-
-
 }
