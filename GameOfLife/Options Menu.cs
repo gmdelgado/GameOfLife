@@ -53,7 +53,6 @@ namespace GameOfLife
         {
             Options_Menu dlg = new Options_Menu();
             dlg._height = _height;
-
             if(DialogResult.OK == dlg.ShowDialog())
             {
                 _height = dlg._height;
@@ -82,16 +81,24 @@ namespace GameOfLife
             numericUpDown1.Value = number;
         }
 
-        public int _Width
+        public int GetWidth()
         {
-            get { return (int)numericUpDownWidthUniverse.Value; }
-            set { numericUpDownWidthUniverse.Value = value;}
+            return (int)numericUpDownWidthUniverse.Value; 
         }
 
-        public int _Height
+        public void SetWidth(int number)
         {
-            get { return (int)numericUpDownHeightUniverse.Value;}
-            set { numericUpDownHeightUniverse.Value = value;}
+            numericUpDownWidthUniverse.Value = number;
+        }
+
+        public int GetHeight()
+        {
+            return (int)numericUpDownHeightUniverse.Value;
+        }
+
+        public void SetHeight(int number )
+        {
+            numericUpDownHeightUniverse.Value = number;
         }
 
     }

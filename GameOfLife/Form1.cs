@@ -18,12 +18,9 @@ namespace GameOfLife
         bool[,] universe = new bool[Properties.Settings.Default.width, Properties.Settings.Default.height];
         bool[,] scratchPad = new bool[Properties.Settings.Default.width, Properties.Settings.Default.height];
 
-
-        int _height = Properties.Settings.Default.height;
-        int _width = Properties.Settings.Default.width;
         // Drawing colors
-        Color gridColor = Color.Black;
-        Color cellColor = Color.Green;
+        Color gridColor = Properties.Settings.Default.gridcolor;
+        Color cellColor = Properties.Settings.Default.cellcolor;
 
         // The Timer class
         Timer timer = new Timer();
@@ -37,6 +34,9 @@ namespace GameOfLife
         {
             InitializeComponent();
 
+            Color gridColor = Properties.Settings.Default.gridcolor;
+            Color cellColor = Properties.Settings.Default.cellcolor;
+            graphicsPanel1.BackColor = Properties.Settings.Default.PanelColor;
             // Setup the timer
             timer.Interval = Properties.Settings.Default.TimerInterval; // milliseconds
             timer.Tick += Timer_Tick;
@@ -201,10 +201,6 @@ namespace GameOfLife
             }
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close(); //shuts down the program
-        }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -522,8 +518,9 @@ namespace GameOfLife
             Options_Menu dlg = new Options_Menu();
             //dlg.timer.Interval = timer.Interval;
             dlg.SetNumber(timer.Interval);
-            dlg._Height = _height;
-            dlg._Width = _width;
+            
+            dlg.SetHeight(Properties.Settings.Default.height);
+            dlg.SetWidth(Properties.Settings.Default.width);
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
@@ -531,11 +528,36 @@ namespace GameOfLife
                 // from the dialog if it was closed with
                 // the OK button.
                 timer.Interval = dlg.GetNumber();
-                Properties.Settings.Default.height = dlg._Height;
-                Properties.Settings.Default.width = dlg._Width;
+                Properties.Settings.Default.height = dlg.GetHeight();
+                Properties.Settings.Default.width = dlg.GetWidth();
 
-                //graphicsPanel1.Invalidate();
+                graphicsPanel1.Invalidate();
+
             }
         }
+        private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = graphicsPanel1.BackColor;
+
+            if(DialogResult.OK == dlg.ShowDialog())
+            {
+                graphicsPanel1.BackColor = dlg.Color;
+            }
+        }
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close(); //shuts down the program
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.gridcolor = gridColor;
+            Properties.Settings.Default.cellcolor = cellColor;
+            Properties.Settings.Default.PanelColor = graphicsPanel1.BackColor;
+            Properties.Settings.Default.Save();
+        }
+
     }
 }

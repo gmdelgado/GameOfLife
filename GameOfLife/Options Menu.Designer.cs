@@ -80,7 +80,7 @@ namespace GameOfLife
             this.numericUpDownWidthUniverse.Name = "numericUpDownWidthUniverse";
             this.numericUpDownWidthUniverse.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownWidthUniverse.TabIndex = 3;
-            this.numericUpDownWidthUniverse.ValueChanged += new System.EventHandler(this.numericUpDownWidthUniverse_ValueChanged);
+            //this.numericUpDownWidthUniverse.ValueChanged += new System.EventHandler(this.numericUpDownWidthUniverse_ValueChanged);
             // 
             // numericUpDownHeightUniverse
             // 
@@ -88,7 +88,7 @@ namespace GameOfLife
             this.numericUpDownHeightUniverse.Name = "numericUpDownHeightUniverse";
             this.numericUpDownHeightUniverse.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownHeightUniverse.TabIndex = 4;
-            this.numericUpDownHeightUniverse.ValueChanged += new System.EventHandler(this.numericUpDownHeightUniverse_ValueChanged);
+            //this.numericUpDownHeightUniverse.ValueChanged += new System.EventHandler(this.numericUpDownHeightUniverse_ValueChanged);
             // 
             // TimerInterval
             // 
