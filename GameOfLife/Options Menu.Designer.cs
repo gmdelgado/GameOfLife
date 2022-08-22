@@ -32,20 +32,20 @@ namespace GameOfLife
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.numericUpDownWidthUniverse = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownHeightUniverse = new System.Windows.Forms.NumericUpDown();
+            this.TimerInterval = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidthUniverse)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeightUniverse)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(101, 128);
+            this.buttonOK.Location = new System.Drawing.Point(126, 128);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 0;
@@ -65,33 +65,39 @@ namespace GameOfLife
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(161, 31);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown1.TabIndex = 2;
             // 
-            // numericUpDown2
+            // numericUpDownWidthUniverse
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(161, 58);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown2.TabIndex = 3;
+            this.numericUpDownWidthUniverse.Location = new System.Drawing.Point(161, 58);
+            this.numericUpDownWidthUniverse.Name = "numericUpDownWidthUniverse";
+            this.numericUpDownWidthUniverse.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownWidthUniverse.TabIndex = 3;
+            this.numericUpDownWidthUniverse.ValueChanged += new System.EventHandler(this.numericUpDownWidthUniverse_ValueChanged);
             // 
-            // numericUpDown3
+            // numericUpDownHeightUniverse
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(161, 85);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown3.TabIndex = 4;
+            this.numericUpDownHeightUniverse.Location = new System.Drawing.Point(161, 85);
+            this.numericUpDownHeightUniverse.Name = "numericUpDownHeightUniverse";
+            this.numericUpDownHeightUniverse.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownHeightUniverse.TabIndex = 4;
+            this.numericUpDownHeightUniverse.ValueChanged += new System.EventHandler(this.numericUpDownHeightUniverse_ValueChanged);
             // 
-            // label1
+            // TimerInterval
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(131, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Timer Interval Milliseconds";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.TimerInterval.AutoSize = true;
+            this.TimerInterval.Location = new System.Drawing.Point(24, 33);
+            this.TimerInterval.Name = "TimerInterval";
+            this.TimerInterval.Size = new System.Drawing.Size(131, 13);
+            this.TimerInterval.TabIndex = 5;
+            this.TimerInterval.Text = "Timer Interval Milliseconds";
             // 
             // label2
             // 
@@ -120,9 +126,9 @@ namespace GameOfLife
             this.ClientSize = new System.Drawing.Size(307, 176);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.numericUpDown3);
-            this.Controls.Add(this.numericUpDown2);
+            this.Controls.Add(this.TimerInterval);
+            this.Controls.Add(this.numericUpDownHeightUniverse);
+            this.Controls.Add(this.numericUpDownWidthUniverse);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
@@ -132,9 +138,10 @@ namespace GameOfLife
             this.Name = "Options_Menu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Options_Menu";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Options_Menu_FormClosed_1);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidthUniverse)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeightUniverse)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -145,9 +152,9 @@ namespace GameOfLife
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown numericUpDownWidthUniverse;
+        private System.Windows.Forms.NumericUpDown numericUpDownHeightUniverse;
+        private System.Windows.Forms.Label TimerInterval;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
     }

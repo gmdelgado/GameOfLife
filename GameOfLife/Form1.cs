@@ -13,10 +13,14 @@ namespace GameOfLife
 {
     public partial class Form1 : Form
     {
-        // The universe array
-        bool[,] universe = new bool[15, 15];
-        bool[,] scratchPad = new bool[15, 15];
 
+        // The universe array
+        bool[,] universe = new bool[Properties.Settings.Default.width, Properties.Settings.Default.height];
+        bool[,] scratchPad = new bool[Properties.Settings.Default.width, Properties.Settings.Default.height];
+
+
+        int _height = Properties.Settings.Default.height;
+        int _width = Properties.Settings.Default.width;
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Green;
@@ -34,7 +38,7 @@ namespace GameOfLife
             InitializeComponent();
 
             // Setup the timer
-            timer.Interval = 100; // milliseconds
+            timer.Interval = Properties.Settings.Default.TimerInterval; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running //may need to change to false or will need to change to false
         }
@@ -293,18 +297,6 @@ namespace GameOfLife
             }
         }
 
-        private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ColorDialog dlg = new ColorDialog();
-
-            dlg.Color = gridColor;
-
-            if (DialogResult.OK == dlg.ShowDialog())
-            {
-                gridColor = dlg.Color;
-                graphicsPanel1.Invalidate();
-            }
-        }
 
         public int ResetGen(ref int num)
         {
@@ -512,17 +504,37 @@ namespace GameOfLife
             //validate when done
             graphicsPanel1.Invalidate();
         }
+        private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = gridColor;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                gridColor = dlg.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
 
         private void optionsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Options_Menu dlg = new Options_Menu();
+            //dlg.timer.Interval = timer.Interval;
+            dlg.SetNumber(timer.Interval);
+            dlg._Height = _height;
+            dlg._Width = _width;
+
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 // You only want to retrieve information
                 // from the dialog if it was closed with
                 // the OK button.
-               
+                timer.Interval = dlg.GetNumber();
+                Properties.Settings.Default.height = dlg._Height;
+                Properties.Settings.Default.width = dlg._Width;
 
+                //graphicsPanel1.Invalidate();
             }
         }
     }
