@@ -56,7 +56,7 @@ namespace GameOfLife
                     if (universe[x, y] == true)
                     {
                         // cell dies with fewer than two neighbors
-                        if (neighbors < 2 )
+                        if (neighbors < 2)
                             scratchPad[x, y] = false;
                         // cell dies with more than three neighbors
                         if (neighbors > 3)
@@ -70,16 +70,16 @@ namespace GameOfLife
                         if (neighbors == 3)
                             scratchPad[x, y] = true;
                     }
-                    
+
                 }
             }
-            
+
             // Copy from scratchPad to universe
             // clear out anything in the scratchPad that shouldnt be turned on the next time scratchPad executes
             bool[,] temp = universe;
             universe = scratchPad;
             scratchPad = temp;
-            Array.Clear(scratchPad,0, scratchPad.Length);
+            Array.Clear(scratchPad, 0, scratchPad.Length);
             // Increment generation count
             generations++;
 
@@ -111,7 +111,7 @@ namespace GameOfLife
                     // call next 
                     rand.Next();
                     // if random number == 0 turn on
-                    if(rand.Next() == 0)
+                    if (rand.Next() == 0)
                     {
                         universe[x, y] = true;
                     }
@@ -213,7 +213,7 @@ namespace GameOfLife
                     universe[x, y] = false;
                 }
             }
- 
+
             graphicsPanel1.Invalidate();
         }
 
@@ -314,7 +314,7 @@ namespace GameOfLife
 
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private int CountNeighborsToroidal(int x, int y)
@@ -335,14 +335,14 @@ namespace GameOfLife
                     if (xCheck < 0)
                         xCheck = xLen - 1;
                     // if yCheck is less than 0 then set to yLen - 1
-                    if(yCheck < 0)
+                    if (yCheck < 0)
                         yCheck = yLen - 1;
                     // if xCheck is greater than or equal too xLen then set to 0
                     if (xCheck >= xLen)
                         xCheck = 0;
                     // if yCheck is greater than or equal too yLen then set to 0
                     if (yCheck >= yLen)
-                        yCheck= yLen;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                        yCheck = yLen;
 
                     if (universe[xCheck, yCheck] == true) count++;
                 }
@@ -369,22 +369,22 @@ namespace GameOfLife
 
                 // Iterate through the universe one row at a time.
                 for (int y = 0; y < universe.GetLength(1); y++)
-     {
+                {
                     // Create a string to represent the current row.
                     String currentRow = string.Empty;
 
                     // Iterate through the current row one cell at a time.
                     for (int x = 0; x < universe.GetLength(0); x++)
-          {
+                    {
                         // If the universe[x,y] is alive then append 'O' (capital O)
                         // to the row string.
-                        if(universe[x,y] == true)
+                        if (universe[x, y] == true)
                         {
                             currentRow += 'O';
                         }
                         // Else if the universe[x,y] is dead then append '.' (period)
                         // to the row string.
-                        else if(universe[x, y] == false)
+                        else if (universe[x, y] == false)
                         {
                             currentRow += '.';
                         }
@@ -423,14 +423,14 @@ namespace GameOfLife
 
                     // If the row begins with '!' then it is a comment
                     // and should be ignored.
-                    if(row == "!")
+                    if (row == "!")
                     {
                         // code to ignore
                         continue;
                     }
                     // If the row is not a comment then it is a row of cells.
                     // Increment the maxHeight variable for each row read.
-                    if(row != "!")
+                    if (row != "!")
                     {
                         for (int i = 0; i < row.Length; i++)
                         {
@@ -457,7 +457,7 @@ namespace GameOfLife
 
                     // If the row begins with '!' then
                     // it is a comment and should be ignored.
-                    if(row == "!")
+                    if (row == "!")
                     {
                         continue;
                     }
@@ -469,13 +469,13 @@ namespace GameOfLife
                         int yPos = 0;
                         // If row[xPos] is a 'O' (capital O) then
                         // set the corresponding cell in the universe to alive.
-                        if(row[xPos] == 'O')
+                        if (row[xPos] == 'O')
                         {
-                            universe[xPos,yPos] = true;
+                            universe[xPos, yPos] = true;
                         }
                         // If row[xPos] is a '.' (period) then
                         // set the corresponding cell in the universe to dead.
-                        if(row[xPos] == '.')
+                        if (row[xPos] == '.')
                         {
                             universe[xPos, yPos] = false;
                         }
@@ -513,5 +513,17 @@ namespace GameOfLife
             graphicsPanel1.Invalidate();
         }
 
+        private void optionsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Options_Menu dlg = new Options_Menu();
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                // You only want to retrieve information
+                // from the dialog if it was closed with
+                // the OK button.
+               
+
+            }
+        }
     }
 }
