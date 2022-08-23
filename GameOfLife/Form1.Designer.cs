@@ -55,8 +55,6 @@ namespace GameOfLife
             this.neighborCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.torodialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.finiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.randomizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -244,9 +242,7 @@ namespace GameOfLife
             this.hUDToolStripMenuItem,
             this.neighborCountToolStripMenuItem,
             this.gridToolStripMenuItem,
-            this.toolStripSeparator3,
-            this.torodialToolStripMenuItem,
-            this.finiteToolStripMenuItem});
+            this.toolStripSeparator3});
             this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
             this.viewToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem1.Text = "View";
@@ -273,23 +269,6 @@ namespace GameOfLife
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
-            // 
-            // torodialToolStripMenuItem
-            // 
-            this.torodialToolStripMenuItem.Checked = true;
-            this.torodialToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.torodialToolStripMenuItem.Name = "torodialToolStripMenuItem";
-            this.torodialToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.torodialToolStripMenuItem.Text = "Torodial";
-            // 
-            // finiteToolStripMenuItem
-            // 
-            this.finiteToolStripMenuItem.Checked = true;
-            this.finiteToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.finiteToolStripMenuItem.Name = "finiteToolStripMenuItem";
-            this.finiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.finiteToolStripMenuItem.Text = "Finite";
-            this.finiteToolStripMenuItem.Click += new System.EventHandler(this.finiteToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem1
             // 
@@ -585,8 +564,6 @@ namespace GameOfLife
         private System.Windows.Forms.ToolStripMenuItem neighborCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gridToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem torodialToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem finiteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCellCount;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;

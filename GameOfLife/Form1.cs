@@ -75,7 +75,7 @@ namespace GameOfLife
         // Calculate the next generation of cells
         private void NextGeneration()
         {
-            int neighbors;
+            
 
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -108,7 +108,7 @@ namespace GameOfLife
                         if (neighbors == 3)
                             scratchPad[x, y] = true;
                     }
-
+                    
                 }
             }
 
@@ -120,7 +120,7 @@ namespace GameOfLife
             Array.Clear(scratchPad, 0, scratchPad.Length);
             // Increment generation count
             generations++;
-
+            
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
 
@@ -163,6 +163,7 @@ namespace GameOfLife
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
+            int cel = 0;
             // Floats!! makes program look better
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
@@ -195,16 +196,18 @@ namespace GameOfLife
                     // Fill the cell with a brush if alive
                     if (universe[x, y] == true)
                     {
+                        cel++;
+                        cellCount = cel - 1;
                         e.Graphics.FillRectangle(cellBrush, cellRect);
-                        e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Black, cellRect, stringFormat);
+                        e.Graphics.DrawString(cellCount.ToString(), font, Brushes.Black, cellRect, stringFormat);
                     }
 
                     // Outline the cell with a pen                    
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
             }
-
             // Cleaning up pens and brushes
+            toolStripStatusLabelCellCount.Text = "Cell Count = " + cellCount.ToString();
             gridPen.Dispose();
             cellBrush.Dispose();
 
@@ -235,10 +238,10 @@ namespace GameOfLife
             }
         }
 
-
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ResetGen(ref generations);
+            timer.Enabled = false;
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 for (int x = 0; x < universe.GetLength(0); x++)
@@ -250,9 +253,6 @@ namespace GameOfLife
 
             graphicsPanel1.Invalidate();
         }
-
-
-
 
         private void toolStripButtonNext_Click(object sender, EventArgs e)
         {
@@ -285,17 +285,12 @@ namespace GameOfLife
             }
         }
 
-
         public int ResetGen(ref int num)
         {
             num = 0;
             return num;
         }
 
-        private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
         private int CountNeighborsFinite(int x, int y)
         {
             int count = 0;
@@ -511,6 +506,7 @@ namespace GameOfLife
 
         private void randomizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Create Dialog Box
 
             // Random rand = new Random();  Time
             // Takes a seed for seed
