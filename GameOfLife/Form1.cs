@@ -30,6 +30,8 @@ namespace GameOfLife
         int cellCount = 0;
         int neighbors = 0;
 
+        bool CountNeighbors = true;
+
         public Form1()
         {
             InitializeComponent();
@@ -42,20 +44,52 @@ namespace GameOfLife
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running //may need to change to false or will need to change to false
         }
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            CountNeighbors = true;
+            if (checkBox1.Checked == false)
+            {
+                checkBox2.Checked = true;
+                CountNeighbors = false;
+            }
+            else if (checkBox1.Checked == true)
+            {
+                checkBox2.Checked = false;
+            }
+        }
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            //CountNeighbors = false;
+            if (checkBox2.Checked == false)
+            {
+                checkBox1.Checked = true;
+                //CountNeighbors = true;
+            }
+            else if (checkBox2.Checked == true)
+            {
+                checkBox1.Checked = false;
+            }
+        }
+
 
         // Calculate the next generation of cells
         private void NextGeneration()
         {
+            int neighbors;
 
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    //int neighbors = CountNeighborsFinite(x, y); // send in the x and the y
-                    int neighbors = CountNeighborsToroidal(x, y);
-
-
+                    if (CountNeighbors == true)
+                    {
+                        neighbors = CountNeighborsToroidal(x, y);
+                    }
+                    else
+                    {
+                        neighbors = CountNeighborsFinite(x, y); // send in the x and the y
+                    }
                     // Apply the rules whether cell should live or die in next generation
                     if (universe[x, y] == true)
                     {
@@ -557,6 +591,7 @@ namespace GameOfLife
             Properties.Settings.Default.PanelColor = graphicsPanel1.BackColor;
             Properties.Settings.Default.Save();
         }
+
 
     }
 }

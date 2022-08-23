@@ -93,5 +93,17 @@ namespace GameOfLife.Properties {
                 this["PanelColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CountNeighbors {
+            get {
+                return ((bool)(this["CountNeighbors"]));
+            }
+            set {
+                this["CountNeighbors"] = value;
+            }
+        }
     }
 }

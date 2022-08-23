@@ -20,5 +20,8 @@
     <Setting Name="PanelColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="CountNeighbors" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
