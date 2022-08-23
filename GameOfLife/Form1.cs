@@ -52,8 +52,8 @@ namespace GameOfLife
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    int neighbors = CountNeighborsFinite(x, y); // send in the x and the y
-                    //int neighbors = CountNeighborsToroidal(x, y);
+                    //int neighbors = CountNeighborsFinite(x, y); // send in the x and the y
+                    int neighbors = CountNeighborsToroidal(x, y);
 
 
                     // Apply the rules whether cell should live or die in next generation
@@ -218,48 +218,6 @@ namespace GameOfLife
         }
 
 
-        private int CountNeighborsFinite(int x, int y)
-        {
-            int count = 0;
-            int xLen = universe.GetLength(0);
-            int yLen = universe.GetLength(1);
-            for (int yOffset = -1; yOffset <= 1; yOffset++)
-            {
-                for (int xOffset = -1; xOffset <= 1; xOffset++)
-                {
-                    int xCheck = x + xOffset;
-                    int yCheck = y + yOffset;
-                    // if xOffset and yOffset are both equal to 0 then continue
-                    if (xOffset == 0 && yOffset == 0)
-                    {
-                        continue;
-                    }
-                    // if xCheck is less than 0 then continue
-                    if (xCheck < 0)
-                    {
-                        continue;
-                    }
-                    // if yCheck is less than 0 then continue
-                    if (yCheck < 0)
-                    {
-                        continue;
-                    }
-                    // if xCheck is greater than or equal too xLen then continue
-                    if (xCheck >= xLen)
-                    {
-                        continue;
-                    }
-                    // if yCheck is greater than or equal too yLen then continue
-                    if (yCheck >= yLen)
-                    {
-                        continue;
-                    }
-
-                    if (universe[xCheck, yCheck] == true) count++;
-                }
-            }
-            return count;
-        }
 
 
         private void toolStripButtonNext_Click(object sender, EventArgs e)
@@ -304,6 +262,48 @@ namespace GameOfLife
         {
 
         }
+        private int CountNeighborsFinite(int x, int y)
+        {
+            int count = 0;
+            int xLen = universe.GetLength(0);
+            int yLen = universe.GetLength(1);
+            for (int yOffset = -1; yOffset <= 1; yOffset++)
+            {
+                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                {
+                    int xCheck = x + xOffset;
+                    int yCheck = y + yOffset;
+                    // if xOffset and yOffset are both equal to 0 then continue
+                    if (xOffset == 0 && yOffset == 0)
+                    {
+                        continue;
+                    }
+                    // if xCheck is less than 0 then continue
+                    if (xCheck < 0)
+                    {
+                        continue;
+                    }
+                    // if yCheck is less than 0 then continue
+                    if (yCheck < 0)
+                    {
+                        continue;
+                    }
+                    // if xCheck is greater than or equal too xLen then continue
+                    if (xCheck >= xLen)
+                    {
+                        continue;
+                    }
+                    // if yCheck is greater than or equal too yLen then continue
+                    if (yCheck >= yLen)
+                    {
+                        continue;
+                    }
+
+                    if (universe[xCheck, yCheck] == true) count++;
+                }
+            }
+            return count;
+        }
 
         private int CountNeighborsToroidal(int x, int y)
         {
@@ -330,7 +330,7 @@ namespace GameOfLife
                         xCheck = 0;
                     // if yCheck is greater than or equal too yLen then set to 0
                     if (yCheck >= yLen)
-                        yCheck = yLen;
+                        yCheck = 0;
 
                     if (universe[xCheck, yCheck] == true) count++;
                 }
@@ -530,7 +530,6 @@ namespace GameOfLife
                 timer.Interval = dlg.GetNumber();
                 Properties.Settings.Default.height = dlg.GetHeight();
                 Properties.Settings.Default.width = dlg.GetWidth();
-
                 graphicsPanel1.Invalidate();
 
             }
