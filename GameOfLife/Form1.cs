@@ -13,10 +13,12 @@ namespace GameOfLife
 {
     public partial class Form1 : Form
     {
+        //static int wid = Properties.Settings.Default.wid;
+        //static int hei = Properties.Settings.Default.hei;
 
         // The universe array
-        bool[,] universe = new bool[Properties.Settings.Default.width, Properties.Settings.Default.height];
-        bool[,] scratchPad = new bool[Properties.Settings.Default.width, Properties.Settings.Default.height];
+        bool[,] universe = new bool[Properties.Settings.Default.wid, Properties.Settings.Default.hei];
+        bool[,] scratchPad = new bool[Properties.Settings.Default.wid, Properties.Settings.Default.hei];
 
         // Drawing colors
         Color gridColor = Properties.Settings.Default.gridcolor;
@@ -207,7 +209,7 @@ namespace GameOfLife
                 }
             }
             // Cleaning up pens and brushes
-            toolStripStatusLabelCellCount.Text = "Cell Count = " + cellCount.ToString();
+            toolStripStatusLabelCellCount.Text = "Alive = " + cellCount.ToString();
             gridPen.Dispose();
             cellBrush.Dispose();
 
@@ -547,19 +549,23 @@ namespace GameOfLife
         {
             Options_Menu dlg = new Options_Menu();
             //dlg.timer.Interval = timer.Interval;
-            dlg.SetNumber(timer.Interval);
+            dlg.SetNumber(Properties.Settings.Default.TimerInterval);
             
-            dlg.SetHeight(Properties.Settings.Default.height);
-            dlg.SetWidth(Properties.Settings.Default.width);
+            dlg.SetHeight(Properties.Settings.Default.hei);
+            dlg.SetWidth(Properties.Settings.Default.wid);
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 // You only want to retrieve information
                 // from the dialog if it was closed with
                 // the OK button.
-                timer.Interval = dlg.GetNumber();
-                Properties.Settings.Default.height = dlg.GetHeight();
-                Properties.Settings.Default.width = dlg.GetWidth();
+                Properties.Settings.Default.TimerInterval = dlg.GetNumber();
+                Properties.Settings.Default.hei = dlg.GetHeight();
+                Properties.Settings.Default.wid = dlg.GetWidth();
+
+                universe = new bool[Properties.Settings.Default.wid, Properties.Settings.Default.hei];
+                scratchPad = new bool[Properties.Settings.Default.wid, Properties.Settings.Default.hei];
+
                 graphicsPanel1.Invalidate();
 
             }

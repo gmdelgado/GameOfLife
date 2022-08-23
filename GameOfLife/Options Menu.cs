@@ -12,8 +12,8 @@ namespace GameOfLife
 {
     public partial class Options_Menu : Form
     {
-        
-        public Timer timer = new Timer();
+       
+        int time;
         int _height;
         int _width;
 
@@ -22,9 +22,9 @@ namespace GameOfLife
             InitializeComponent();
 
             // Reading the property
-            timer.Interval = Properties.Settings.Default.TimerInterval;
-            _height = Properties.Settings.Default.height;
-            _width = Properties.Settings.Default.width;
+            time = Properties.Settings.Default.TimerInterval;
+            _height = Properties.Settings.Default.hei;
+            _width = Properties.Settings.Default.wid;
         }
 
         public void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -32,11 +32,11 @@ namespace GameOfLife
             //set time.interval to property and change it
             Options_Menu dlg = new Options_Menu();
 
-            dlg.timer.Interval = timer.Interval;
+            dlg.time = time;
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 // Update property
-                timer.Interval = dlg.timer.Interval;
+                time = dlg.time;
             }
         }
         private void numericUpDownWidthUniverse_ValueChanged(object sender, EventArgs e)
@@ -62,9 +62,9 @@ namespace GameOfLife
         public void Options_Menu_FormClosed_1(object sender, FormClosedEventArgs e)
         {
             // Update Property
-            Properties.Settings.Default.TimerInterval = timer.Interval;
-            Properties.Settings.Default.width = _width;
-            Properties.Settings.Default.height = _height;
+            Properties.Settings.Default.TimerInterval = time;
+            Properties.Settings.Default.wid = _width;
+            Properties.Settings.Default.hei = _height;
 
             Properties.Settings.Default.Save();
         }

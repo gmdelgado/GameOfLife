@@ -25,7 +25,7 @@ namespace GameOfLife.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
         public int TimerInterval {
             get {
                 return ((int)(this["TimerInterval"]));
@@ -37,25 +37,25 @@ namespace GameOfLife.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("15")]
-        public int height {
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int hei {
             get {
-                return ((int)(this["height"]));
+                return ((int)(this["hei"]));
             }
             set {
-                this["height"] = value;
+                this["hei"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("15")]
-        public int width {
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int wid {
             get {
-                return ((int)(this["width"]));
+                return ((int)(this["wid"]));
             }
             set {
-                this["width"] = value;
+                this["wid"] = value;
             }
         }
         
@@ -103,6 +103,18 @@ namespace GameOfLife.Properties {
             }
             set {
                 this["CountNeighbors"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int TimeInt {
+            get {
+                return ((int)(this["TimeInt"]));
+            }
+            set {
+                this["TimeInt"] = value;
             }
         }
     }
