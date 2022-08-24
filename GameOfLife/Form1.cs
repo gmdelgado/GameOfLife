@@ -199,7 +199,7 @@ namespace GameOfLife
                     if (universe[x, y] == true)
                     {
                         cel++;
-                        cellCount = cel - 1;
+                        cellCount = cel;
                         e.Graphics.FillRectangle(cellBrush, cellRect);
                         e.Graphics.DrawString(cellCount.ToString(), font, Brushes.Black, cellRect, stringFormat);
                     }
@@ -442,16 +442,15 @@ namespace GameOfLife
 
                     // If the row begins with '!' then it is a comment
                     // and should be ignored.
-                    if (row == "!")
-                    {
-                        // code to ignore
+                    if (row[0] == '!')
+                    {                        
                         continue;
                     }
                     // If the row is not a comment then it is a row of cells.
                     // Increment the maxHeight variable for each row read.
-                    if (row != "!")
+                    if (row[0] != '!')
                     {
-                        for (int i = 0; i < row.Length; i++)
+                        for (int i = 0; i < row.Count<char>(); i++)
                         {
                             maxHeight++;
                         }
@@ -459,11 +458,14 @@ namespace GameOfLife
 
                     // Get the length of the current row string
                     // and adjust the maxWidth variable if necessary.
-                    maxHeight = row.Length;
+                    maxWidth = row.Length;
                 }
 
                 // Resize the current universe and scratchPad
                 // to the width and height of the file calculated above.
+                universe = new bool[maxWidth, maxHeight/maxWidth];
+                scratchPad = new bool[maxWidth, maxHeight/maxWidth];
+
 
                 // Reset the file pointer back to the beginning of the file.
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
@@ -476,7 +478,7 @@ namespace GameOfLife
 
                     // If the row begins with '!' then
                     // it is a comment and should be ignored.
-                    if (row == "!")
+                    if (row[0] == '!')
                     {
                         continue;
                     }
@@ -490,16 +492,27 @@ namespace GameOfLife
                         // set the corresponding cell in the universe to alive.
                         if (row[xPos] == 'O')
                         {
-                            universe[xPos, yPos] = true;
+                            if(xPos == maxWidth)
+                            {
+                                yPos++;
+                            }
+                            universe[xPos,yPos] = true;
+                            graphicsPanel1.Invalidate();
                         }
                         // If row[xPos] is a '.' (period) then
                         // set the corresponding cell in the universe to dead.
                         if (row[xPos] == '.')
                         {
-                            universe[xPos, yPos] = false;
+                            if (xPos == maxWidth)
+                            {
+                                yPos++;
+                            }
+                            universe[xPos,yPos] = false;
+                            graphicsPanel1.Invalidate();
                         }
                     }
                 }
+
 
                 // Close the file.
                 reader.Close();
@@ -511,6 +524,7 @@ namespace GameOfLife
             //Create Dialog Box
 
             // Random rand = new Random();  Time
+            //Random rand = new Random(seed)
             // Takes a seed for seed
             Random rand = new Random();
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -519,11 +533,11 @@ namespace GameOfLife
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     // call next 
-                    rand.Next();
+                    int i = rand.Next(0,2);
                     // if random number == 0 turn on
-                    if (rand.Next() == 0)
+                    if (i == 0)
                     {
-                        universe[x, y] = true;
+                        universe[x,y] = true;
                     }
 
                 }
@@ -547,10 +561,12 @@ namespace GameOfLife
 
         private void optionsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            int tempNum = Properties.Settings.Default.hei;
+            int tempNum2 = Properties.Settings.Default.wid;
+
             Options_Menu dlg = new Options_Menu();
             //dlg.timer.Interval = timer.Interval;
-            dlg.SetNumber(Properties.Settings.Default.TimerInterval);
-            
+            dlg.SetNumber(Properties.Settings.Default.TimerInterval);            
             dlg.SetHeight(Properties.Settings.Default.hei);
             dlg.SetWidth(Properties.Settings.Default.wid);
 
@@ -562,13 +578,18 @@ namespace GameOfLife
                 Properties.Settings.Default.TimerInterval = dlg.GetNumber();
                 Properties.Settings.Default.hei = dlg.GetHeight();
                 Properties.Settings.Default.wid = dlg.GetWidth();
+            }
 
+            if (Properties.Settings.Default.hei == tempNum || Properties.Settings.Default.wid == tempNum2)
+            {
+            }
+            else
+            {
                 universe = new bool[Properties.Settings.Default.wid, Properties.Settings.Default.hei];
                 scratchPad = new bool[Properties.Settings.Default.wid, Properties.Settings.Default.hei];
-
-                graphicsPanel1.Invalidate();
-
+                graphicsPanel1.Invalidate();                
             }
+                timer.Interval = Properties.Settings.Default.TimerInterval;
         }
         private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
