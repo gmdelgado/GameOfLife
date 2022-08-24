@@ -31,7 +31,7 @@ namespace GameOfLife
         int generations = 0;
         int cellCount = 0;
         int neighbors = 0;
-
+        Int32 seed = 0;
         bool CountNeighbors = true;
 
         public Form1()
@@ -41,6 +41,7 @@ namespace GameOfLife
             Color gridColor = Properties.Settings.Default.gridcolor;
             Color cellColor = Properties.Settings.Default.cellcolor;
             graphicsPanel1.BackColor = Properties.Settings.Default.PanelColor;
+            seed = Properties.Settings.Default.RandFromSeed;
             // Setup the timer
             timer.Interval = Properties.Settings.Default.TimerInterval; // milliseconds
             timer.Tick += Timer_Tick;
@@ -77,7 +78,7 @@ namespace GameOfLife
         // Calculate the next generation of cells
         private void NextGeneration()
         {
-            
+
 
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -110,7 +111,7 @@ namespace GameOfLife
                         if (neighbors == 3)
                             scratchPad[x, y] = true;
                     }
-                    
+
                 }
             }
 
@@ -122,7 +123,7 @@ namespace GameOfLife
             Array.Clear(scratchPad, 0, scratchPad.Length);
             // Increment generation count
             generations++;
-            
+
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
 
@@ -443,7 +444,7 @@ namespace GameOfLife
                     // If the row begins with '!' then it is a comment
                     // and should be ignored.
                     if (row[0] == '!')
-                    {                        
+                    {
                         continue;
                     }
                     // If the row is not a comment then it is a row of cells.
@@ -463,8 +464,8 @@ namespace GameOfLife
 
                 // Resize the current universe and scratchPad
                 // to the width and height of the file calculated above.
-                universe = new bool[maxWidth, maxHeight/maxWidth];
-                scratchPad = new bool[maxWidth, maxHeight/maxWidth];
+                universe = new bool[maxWidth, maxHeight / maxWidth];
+                scratchPad = new bool[maxWidth, maxHeight / maxWidth];
 
 
                 // Reset the file pointer back to the beginning of the file.
@@ -492,11 +493,11 @@ namespace GameOfLife
                         // set the corresponding cell in the universe to alive.
                         if (row[xPos] == 'O')
                         {
-                            if(xPos == maxWidth)
+                            if (xPos == maxWidth)
                             {
                                 yPos++;
                             }
-                            universe[xPos,yPos] = true;
+                            universe[xPos, yPos] = true;
                             graphicsPanel1.Invalidate();
                         }
                         // If row[xPos] is a '.' (period) then
@@ -507,7 +508,7 @@ namespace GameOfLife
                             {
                                 yPos++;
                             }
-                            universe[xPos,yPos] = false;
+                            universe[xPos, yPos] = false;
                             graphicsPanel1.Invalidate();
                         }
                     }
@@ -526,6 +527,8 @@ namespace GameOfLife
             // Random rand = new Random();  Time
             //Random rand = new Random(seed)
             // Takes a seed for seed
+            Array.Clear(universe, 0, universe.Length);
+            Array.Clear(scratchPad, 0, scratchPad.Length);
             Random rand = new Random();
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -533,18 +536,19 @@ namespace GameOfLife
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     // call next 
-                    int i = rand.Next(0,2);
+                    int i = rand.Next(0, 3);
                     // if random number == 0 turn on
+
                     if (i == 0)
                     {
-                        universe[x,y] = true;
+                        universe[x, y] = true;
                     }
-
                 }
             }
 
             //validate when done
             graphicsPanel1.Invalidate();
+
         }
         private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -566,7 +570,7 @@ namespace GameOfLife
 
             Options_Menu dlg = new Options_Menu();
             //dlg.timer.Interval = timer.Interval;
-            dlg.SetNumber(Properties.Settings.Default.TimerInterval);            
+            dlg.SetNumber(Properties.Settings.Default.TimerInterval);
             dlg.SetHeight(Properties.Settings.Default.hei);
             dlg.SetWidth(Properties.Settings.Default.wid);
 
@@ -587,9 +591,9 @@ namespace GameOfLife
             {
                 universe = new bool[Properties.Settings.Default.wid, Properties.Settings.Default.hei];
                 scratchPad = new bool[Properties.Settings.Default.wid, Properties.Settings.Default.hei];
-                graphicsPanel1.Invalidate();                
+                graphicsPanel1.Invalidate();
             }
-                timer.Interval = Properties.Settings.Default.TimerInterval;
+            timer.Interval = Properties.Settings.Default.TimerInterval;
         }
         private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -597,7 +601,7 @@ namespace GameOfLife
 
             dlg.Color = graphicsPanel1.BackColor;
 
-            if(DialogResult.OK == dlg.ShowDialog())
+            if (DialogResult.OK == dlg.ShowDialog())
             {
                 graphicsPanel1.BackColor = dlg.Color;
             }
@@ -615,6 +619,70 @@ namespace GameOfLife
             Properties.Settings.Default.Save();
         }
 
+        private void fromTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Create Dialog Box
 
+            // Random rand = new Random();  Time
+            //Random rand = new Random(seed)
+            // Takes a seed for seed
+            Random rand = new Random();
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    // call next 
+                    int i = rand.Next(0, 2);
+                    // if random number == 0 turn on
+                    if (i == 0)
+                    {
+                        universe[x, y] = true;
+                    }
+
+                }
+            }
+
+            //validate when done
+            graphicsPanel1.Invalidate();
+        }
+
+        private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            //FromSeed dlg = new FromSeed();
+            //dlg.SetSeed(Properties.Settings.Default.RandFromSeed);
+
+            //if (DialogResult.OK == dlg.ShowDialog())
+            //{
+            //    // You only want to retrieve information
+            //    // from the dialog if it was closed with
+            //    // the OK button.
+            //    Properties.Settings.Default.RandFromSeed = dlg.GetSeed();
+            //}
+
+
+            //Create Dialog Box
+            Random rand = new Random(5);
+            // Takes a seed for seed
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    // call next 
+                    int i = rand.Next();
+                    // if random number == 0 turn on
+                    if (i == 0)
+                    {
+                        universe[x, y] = true;
+                    }
+
+                }
+            }
+
+            //validate when done
+            graphicsPanel1.Invalidate();
+        }
     }
 }

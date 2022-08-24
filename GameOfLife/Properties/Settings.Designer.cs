@@ -117,5 +117,17 @@ namespace GameOfLife.Properties {
                 this["TimeInt"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int RandFromSeed {
+            get {
+                return ((int)(this["RandFromSeed"]));
+            }
+            set {
+                this["RandFromSeed"] = value;
+            }
+        }
     }
 }
