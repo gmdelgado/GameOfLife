@@ -39,10 +39,14 @@ namespace GameOfLife
             // numericUpDownSeed
             // 
             this.numericUpDownSeed.Location = new System.Drawing.Point(78, 30);
+            this.numericUpDownSeed.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.numericUpDownSeed.Name = "numericUpDownSeed";
             this.numericUpDownSeed.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownSeed.TabIndex = 0;
-            //this.numericUpDownSeed.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // label1
             // 
@@ -90,6 +94,7 @@ namespace GameOfLife
             this.Name = "FromSeed";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FromSeed";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FromSeed_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

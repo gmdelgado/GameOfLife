@@ -498,7 +498,6 @@ namespace GameOfLife
                                 yPos++;
                             }
                             universe[xPos, yPos] = true;
-                            graphicsPanel1.Invalidate();
                         }
                         // If row[xPos] is a '.' (period) then
                         // set the corresponding cell in the universe to dead.
@@ -509,47 +508,16 @@ namespace GameOfLife
                                 yPos++;
                             }
                             universe[xPos, yPos] = false;
-                            graphicsPanel1.Invalidate();
+
                         }
+                        graphicsPanel1.Invalidate();
                     }
                 }
-
-
                 // Close the file.
                 reader.Close();
             }
         }
 
-        private void randomizeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //Create Dialog Box
-
-            // Random rand = new Random();  Time
-            //Random rand = new Random(seed)
-            // Takes a seed for seed
-            Array.Clear(universe, 0, universe.Length);
-            Array.Clear(scratchPad, 0, scratchPad.Length);
-            Random rand = new Random();
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    // call next 
-                    int i = rand.Next(0, 3);
-                    // if random number == 0 turn on
-
-                    if (i == 0)
-                    {
-                        universe[x, y] = true;
-                    }
-                }
-            }
-
-            //validate when done
-            graphicsPanel1.Invalidate();
-
-        }
         private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -626,6 +594,8 @@ namespace GameOfLife
             // Random rand = new Random();  Time
             //Random rand = new Random(seed)
             // Takes a seed for seed
+            Array.Clear(universe, 0, universe.Length);
+
             Random rand = new Random();
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -633,7 +603,7 @@ namespace GameOfLife
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     // call next 
-                    int i = rand.Next(0, 2);
+                    int i = rand.Next(0, 3);
                     // if random number == 0 turn on
                     if (i == 0)
                     {
@@ -650,20 +620,20 @@ namespace GameOfLife
         private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            //FromSeed dlg = new FromSeed();
-            //dlg.SetSeed(Properties.Settings.Default.RandFromSeed);
+            FromSeed dlg = new FromSeed();
+            dlg.SetSeed(Properties.Settings.Default.RandFromSeed);
 
-            //if (DialogResult.OK == dlg.ShowDialog())
-            //{
-            //    // You only want to retrieve information
-            //    // from the dialog if it was closed with
-            //    // the OK button.
-            //    Properties.Settings.Default.RandFromSeed = dlg.GetSeed();
-            //}
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                // You only want to retrieve information
+                // from the dialog if it was closed with
+                // the OK button.
+                Properties.Settings.Default.RandFromSeed = dlg.GetSeed();
+            }
 
 
             //Create Dialog Box
-            Random rand = new Random(5);
+            Random rand = new Random(seed);
             // Takes a seed for seed
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -671,7 +641,7 @@ namespace GameOfLife
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     // call next 
-                    int i = rand.Next();
+                    int i = rand.Next(0, 2);
                     // if random number == 0 turn on
                     if (i == 0)
                     {

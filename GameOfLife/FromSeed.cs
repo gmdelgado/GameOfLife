@@ -16,7 +16,7 @@ namespace GameOfLife
         public FromSeed()
         {
             InitializeComponent();
-            int seed = Properties.Settings.Default.RandFromSeed;
+            seed = Properties.Settings.Default.RandFromSeed;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -41,6 +41,13 @@ namespace GameOfLife
         public void SetSeed(Int32 seed)
         {
             numericUpDownSeed.Value = seed;
+        }
+
+        private void FromSeed_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.RandFromSeed = seed;
+
+            Properties.Settings.Default.Save();
         }
     }
 }
